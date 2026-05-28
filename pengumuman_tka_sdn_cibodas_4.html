@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pengumuman Hasil TKA 2026 — SD Negeri Cibodas 4</title>
+<meta name="description" content="Portal Pengumuman Hasil Tes Kemampuan Akademik (TKA) Tahun 2026 SD Negeri Cibodas 4." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root{
+  --navy:#0b1d3a;
+  --navy-2:#102a55;
+  --navy-3:#1b3a73;
+  --gold:#d4af37;
+  --gold-2:#f3d57a;
+  --gold-3:#b8902a;
+  --white:#ffffff;
+  --ink:#0c1424;
+  --muted:#5a6b86;
+  --bg:#eef2f9;
+  --card:rgba(255,255,255,0.72);
+  --card-border:rgba(255,255,255,0.55);
+  --shadow:0 20px 60px rgba(11,29,58,0.18);
+  --shadow-soft:0 8px 24px rgba(11,29,58,0.10);
+}
+[data-theme="dark"]{
+  --white:#0e1729;
+  --ink:#eaf0ff;
+  --muted:#a8b4cc;
+  --bg:#060b18;
+  --card:rgba(17,28,52,0.65);
+  --card-border:rgba(255,255,255,0.08);
+  --shadow:0 20px 60px rgba(0,0,0,0.55);
+  --shadow-soft:0 8px 24px rgba(0,0,0,0.35);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:'Poppins',system-ui,sans-serif;
+  color:var(--ink);
+  background:var(--bg);
+  min-height:100vh;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+/* Background ilustrasi sekolah */
+.bg-wrap{position:fixed;inset:0;z-index:-2;overflow:hidden}
+.bg-wrap::before{
+  content:"";position:absolute;inset:-8%;
+  background:
+    radial-gradient(1200px 700px at 15% 10%, rgba(212,175,55,0.25), transparent 60%),
+    radial-gradient(900px 600px at 85% 90%, rgba(27,58,115,0.45), transparent 60%),
+    linear-gradient(135deg,#0b1d3a 0%, #102a55 45%, #1b3a73 100%);
+  filter:blur(0px);
+}
+.bg-wrap::after{
+  content:"";position:absolute;inset:0;
+  background-image:url("https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1920&q=60");
+  background-size:cover;background-position:center;
+  opacity:.22;filter:blur(10px) saturate(110%);
+}
+[data-theme="dark"] .bg-wrap::after{opacity:.18}
+/* Watermark */
+.watermark{
+  position:fixed;inset:0;z-index:-1;pointer-events:none;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Playfair Display',serif;
+  font-weight:700;font-size:clamp(40px,9vw,140px);
+  color:rgba(255,255,255,0.06);
+  letter-spacing:2px;text-align:center;
+  transform:rotate(-18deg);
+  white-space:nowrap;
+}
+/* Top bar */
+.topbar{
+  position:sticky;top:0;z-index:50;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 24px;
+  background:rgba(11,29,58,0.55);
+  backdrop-filter:blur(14px) saturate(140%);
+  -webkit-backdrop-filter:blur(14px) saturate(140%);
+  border-bottom:1px solid rgba(255,255,255,0.08);
+  color:#fff;
+}
+.brand{display:flex;align-items:center;gap:12px}
+.brand .logo{
+  width:44px;height:44px;border-radius:50%;
+  background:radial-gradient(circle at 30% 30%, #f3d57a, #b8902a 70%);
+  display:flex;align-items:center;justify-content:center;
+  color:#0b1d3a;font-weight:800;
+  box-shadow:0 6px 18px rgba(212,175,55,.4), inset 0 0 0 2px rgba(255,255,255,.3);
+}
+.brand .ttl{display:flex;flex-direction:column;line-height:1.1}
+.brand .ttl b{font-size:14px;letter-spacing:.3px}
+.brand .ttl small{font-size:11px;color:#dfe6f5;opacity:.85}
+.theme-toggle{
+  background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);
+  color:#fff;border-radius:999px;padding:8px 14px;cursor:pointer;
+  display:flex;align-items:center;gap:8px;font-weight:500;font-size:13px;
+  transition:.3s;
+}
+.theme-toggle:hover{background:rgba(255,255,255,0.16);transform:translateY(-1px)}
+
+/* Running text */
+.marquee{
+  background:linear-gradient(90deg, var(--gold-3), var(--gold), var(--gold-2), var(--gold));
+  color:#0b1d3a;font-weight:600;font-size:13px;
+  padding:8px 0;overflow:hidden;white-space:nowrap;position:relative;
+  border-bottom:1px solid rgba(0,0,0,.08);
+}
+.marquee span{display:inline-block;padding-left:100%;animation:run 28s linear infinite}
+@keyframes run{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+
+/* Container */
+.container{max-width:1100px;margin:0 auto;padding:32px 20px 60px}
+
+/* Hero / Login Card */
+.hero{
+  text-align:center;color:#fff;padding:48px 16px 24px;
+  animation:fadeUp .8s ease both;
+}
+.hero .kicker{
+  display:inline-block;padding:6px 14px;border-radius:999px;
+  background:rgba(212,175,55,.15);color:var(--gold-2);
+  border:1px solid rgba(212,175,55,.35);
+  font-size:12px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;
+}
+.hero h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(28px,4.4vw,46px);
+  margin:16px 0 10px;line-height:1.15;
+  background:linear-gradient(180deg,#fff 0%,#dfe6f5 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero p{color:#cfd8ea;max-width:640px;margin:0 auto;font-size:15px}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--card-border);
+  backdrop-filter:blur(18px) saturate(140%);
+  -webkit-backdrop-filter:blur(18px) saturate(140%);
+  border-radius:24px;
+  box-shadow:var(--shadow);
+  padding:32px;
+  animation:fadeUp .9s ease both;
+}
+
+.login-card{max-width:480px;margin:28px auto 0}
+.login-card h2{
+  font-family:'Playfair Display',serif;font-size:22px;margin-bottom:6px;
+  display:flex;align-items:center;gap:10px;
+}
+.login-card .sub{color:var(--muted);font-size:13px;margin-bottom:22px}
+.field{margin-bottom:16px}
+.field label{
+  display:block;font-size:12px;font-weight:600;
+  margin-bottom:8px;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;
+}
+.field input{
+  width:100%;padding:14px 16px;border-radius:14px;
+  border:1.5px solid rgba(11,29,58,.12);
+  background:rgba(255,255,255,.7);
+  font-family:inherit;font-size:15px;color:var(--ink);
+  transition:.25s;outline:none;
+}
+[data-theme="dark"] .field input{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.1)}
+.field input:focus{
+  border-color:var(--gold);
+  box-shadow:0 0 0 4px rgba(212,175,55,.18);
+  background:rgba(255,255,255,.92);
+}
+[data-theme="dark"] .field input:focus{background:rgba(255,255,255,.08)}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:14px 22px;border-radius:14px;border:none;cursor:pointer;
+  font-family:inherit;font-weight:600;font-size:14px;letter-spacing:.02em;
+  transition:.25s;
+}
+.btn-primary{
+  width:100%;
+  background:linear-gradient(135deg, var(--navy-2), var(--navy-3));
+  color:#fff;
+  box-shadow:0 10px 24px rgba(11,29,58,.35), inset 0 1px 0 rgba(255,255,255,.15);
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 32px rgba(11,29,58,.45)}
+.btn-primary:active{transform:translateY(0)}
+.btn-gold{
+  background:linear-gradient(135deg, var(--gold-3), var(--gold), var(--gold-2));
+  color:#0b1d3a;box-shadow:0 10px 24px rgba(212,175,55,.35);
+}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 16px 32px rgba(212,175,55,.45)}
+.btn-ghost{
+  background:rgba(11,29,58,.06);color:var(--ink);
+  border:1px solid rgba(11,29,58,.12);
+}
+[data-theme="dark"] .btn-ghost{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1);color:var(--ink)}
+.btn-ghost:hover{transform:translateY(-2px)}
+
+/* Loader */
+.loader-overlay{
+  position:fixed;inset:0;z-index:200;
+  background:rgba(8,15,30,.78);backdrop-filter:blur(10px);
+  display:none;align-items:center;justify-content:center;flex-direction:column;color:#fff;
+}
+.loader-overlay.show{display:flex;animation:fadeIn .3s ease}
+.spinner{
+  width:64px;height:64px;border-radius:50%;
+  border:4px solid rgba(255,255,255,.15);border-top-color:var(--gold);
+  animation:spin 1s linear infinite;margin-bottom:18px;
+}
+.progress{width:240px;height:6px;background:rgba(255,255,255,.12);border-radius:999px;overflow:hidden;margin-top:8px}
+.progress > div{height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold-2));transition:width .2s ease}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Alert */
+.alert{
+  margin-top:14px;padding:12px 14px;border-radius:12px;font-size:13px;font-weight:500;
+  background:rgba(220,53,69,.1);color:#dc3545;border:1px solid rgba(220,53,69,.25);
+  display:none;
+}
+.alert.show{display:block;animation:fadeUp .35s ease both}
+
+/* RESULT (e-rapor) */
+.result{display:none;animation:fadeUp .6s ease both}
+.result.show{display:block}
+
+.rapor{
+  background:var(--card);
+  border:1px solid var(--card-border);
+  backdrop-filter:blur(18px) saturate(140%);
+  -webkit-backdrop-filter:blur(18px) saturate(140%);
+  border-radius:28px;box-shadow:var(--shadow);
+  overflow:hidden;position:relative;
+}
+.rapor::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(600px 200px at 0% 0%, rgba(212,175,55,.18), transparent 60%),
+    radial-gradient(600px 200px at 100% 100%, rgba(27,58,115,.2), transparent 60%);
+}
+.rapor-head{
+  position:relative;
+  padding:28px 28px 22px;
+  background:linear-gradient(135deg, var(--navy) 0%, var(--navy-3) 100%);
+  color:#fff;
+  display:flex;align-items:center;gap:18px;
+  border-bottom:3px solid var(--gold);
+}
+.rapor-head .seal{
+  width:64px;height:64px;border-radius:50%;flex-shrink:0;
+  background:radial-gradient(circle at 30% 30%, #f3d57a, #b8902a 70%);
+  display:flex;align-items:center;justify-content:center;
+  color:#0b1d3a;font-size:28px;font-weight:800;
+  box-shadow:0 8px 20px rgba(0,0,0,.3), inset 0 0 0 3px rgba(255,255,255,.25);
+}
+.rapor-head h3{font-family:'Playfair Display',serif;font-size:18px;line-height:1.3}
+.rapor-head small{color:#cfd8ea;font-size:12px;display:block;margin-top:2px}
+
+.rapor-body{position:relative;padding:28px}
+.identity{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:14px 22px;
+  padding-bottom:22px;margin-bottom:22px;
+  border-bottom:1px dashed rgba(11,29,58,.18);
+}
+[data-theme="dark"] .identity{border-color:rgba(255,255,255,.12)}
+.identity .item label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+.identity .item div{font-size:15px;font-weight:600;margin-top:4px;color:var(--ink)}
+
+.subjects{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-bottom:22px}
+.subj{
+  position:relative;padding:22px;border-radius:20px;overflow:hidden;
+  background:linear-gradient(135deg, rgba(255,255,255,.7), rgba(255,255,255,.4));
+  border:1px solid rgba(255,255,255,.6);
+  box-shadow:var(--shadow-soft);
+  transition:.3s;
+}
+[data-theme="dark"] .subj{
+  background:linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  border-color:rgba(255,255,255,.08);
+}
+.subj:hover{transform:translateY(-4px);box-shadow:0 16px 32px rgba(11,29,58,.18)}
+.subj .icon{
+  width:42px;height:42px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;font-size:20px;
+  background:linear-gradient(135deg, var(--navy-2), var(--navy-3));color:#fff;
+  margin-bottom:14px;box-shadow:0 6px 14px rgba(11,29,58,.3);
+}
+.subj.bi .icon{background:linear-gradient(135deg, var(--gold-3), var(--gold));color:#0b1d3a}
+.subj h4{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:600;margin-bottom:6px}
+.subj .score{font-family:'Playfair Display',serif;font-size:44px;font-weight:700;line-height:1;color:var(--ink)}
+.badge{
+  display:inline-flex;align-items:center;gap:6px;
+  margin-top:12px;padding:6px 12px;border-radius:999px;
+  font-size:12px;font-weight:600;
+}
+.badge.baik{background:rgba(34,139,80,.12);color:#1f8a4d;border:1px solid rgba(34,139,80,.3)}
+.badge.memadai{background:rgba(212,175,55,.18);color:#a07a13;border:1px solid rgba(212,175,55,.4)}
+.badge.kurang{background:rgba(220,53,69,.12);color:#c0394a;border:1px solid rgba(220,53,69,.3)}
+[data-theme="dark"] .badge.baik{color:#67d99a}
+[data-theme="dark"] .badge.memadai{color:#f3d57a}
+[data-theme="dark"] .badge.kurang{color:#ff8595}
+
+.summary{
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:18px;
+  padding:22px;border-radius:20px;
+  background:linear-gradient(135deg, var(--navy) 0%, var(--navy-3) 100%);
+  color:#fff;box-shadow:0 12px 28px rgba(11,29,58,.35);
+  position:relative;overflow:hidden;
+}
+.summary::after{
+  content:"";position:absolute;right:-40px;top:-40px;width:200px;height:200px;border-radius:50%;
+  background:radial-gradient(circle, rgba(212,175,55,.3), transparent 70%);
+}
+.summary .label{font-size:12px;color:#cfd8ea;text-transform:uppercase;letter-spacing:.1em;font-weight:600}
+.summary .avg{font-family:'Playfair Display',serif;font-size:54px;line-height:1;font-weight:700;color:var(--gold-2)}
+.summary .status{
+  padding:10px 18px;border-radius:999px;font-weight:700;font-size:14px;
+  background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);
+  display:inline-flex;align-items:center;gap:8px;
+}
+.summary .status.sangat{background:linear-gradient(135deg,var(--gold-3),var(--gold));color:#0b1d3a;border-color:transparent}
+.summary .status.baik2{background:rgba(103,217,154,.2);border-color:rgba(103,217,154,.4)}
+.summary .status.cukup{background:rgba(212,175,55,.2);border-color:rgba(212,175,55,.4)}
+
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px;justify-content:center}
+.actions .btn{flex:1;min-width:180px}
+
+.footer-note{
+  margin-top:28px;padding:20px;border-radius:18px;
+  background:rgba(255,255,255,.4);border:1px dashed rgba(11,29,58,.2);
+  font-size:13px;color:var(--ink);line-height:1.7;text-align:center;font-style:italic;
+}
+[data-theme="dark"] .footer-note{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.1)}
+
+.copyright{text-align:center;color:#cfd8ea;font-size:12px;margin-top:30px;opacity:.7}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+@media (max-width:640px){
+  .container{padding:20px 14px 40px}
+  .card,.rapor-body{padding:22px}
+  .identity,.subjects{grid-template-columns:1fr}
+  .rapor-head{flex-direction:column;text-align:center;gap:10px}
+  .summary{flex-direction:column;text-align:center}
+  .hero{padding:28px 8px 12px}
+}
+
+/* PRINT */
+@media print{
+  body{background:#fff}
+  .bg-wrap,.watermark,.topbar,.marquee,.hero,.login-card,.actions,.theme-toggle,.copyright,.footer-print-hide{display:none !important}
+  .container{padding:0}
+  .rapor{box-shadow:none;border:2px solid var(--navy);background:#fff}
+  .rapor::before{display:none}
+  .subj{background:#f8f9fc;border:1px solid #ddd}
+  .footer-note{background:#fff}
+}
+</style>
+</head>
+<body>
+<div class="bg-wrap" aria-hidden="true"></div>
+<div class="watermark" aria-hidden="true">SD NEGERI CIBODAS 4</div>
+
+<header class="topbar no-print">
+  <div class="brand">
+    <div class="logo">C4</div>
+    <div class="ttl"><b>SD Negeri Cibodas 4</b><small>Portal Pengumuman Hasil TKA 2026</small></div>
+  </div>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle tema">
+    <span id="themeIcon">🌙</span><span id="themeText">Mode Gelap</span>
+  </button>
+</header>
+
+<div class="marquee no-print">
+  <span>★ Selamat kepada seluruh siswa kelas 6 SD Negeri Cibodas 4 Tahun Ajaran 2025-2026 ★ &nbsp;&nbsp; Semoga sukses melanjutkan ke jenjang berikutnya ★ &nbsp;&nbsp; Tetap semangat dan terus berprestasi ★</span>
+</div>
+
+<main class="container">
+
+  <section id="loginScreen">
+    <div class="hero">
+      <span class="kicker">Tes Kemampuan Akademik · 2026</span>
+      <h1>Pengumuman Hasil TKA<br/>SD Negeri Cibodas 4</h1>
+      <p>Silakan masukkan NISN dan tanggal lahir untuk melihat hasil Tes Kemampuan Akademik (TKA) Tahun Ajaran 2025-2026.</p>
+    </div>
+
+    <div class="card login-card">
+      <h2>🎓 Login Siswa</h2>
+      <p class="sub">Gunakan data yang sesuai dengan kartu peserta.</p>
+      <form id="loginForm" autocomplete="off">
+        <div class="field">
+          <label for="nisn">Nomor Induk Siswa Nasional (NISN)</label>
+          <input id="nisn" name="nisn" type="text" inputmode="numeric" placeholder="Contoh: 3134913804" maxlength="10" required />
+        </div>
+        <div class="field">
+          <label for="tgl">Tanggal Lahir</label>
+          <input id="tgl" name="tgl" type="date" required />
+        </div>
+        <button class="btn btn-primary" type="submit">🔍 Lihat Hasil TKA</button>
+        <div class="alert" id="alert">Data tidak ditemukan. Periksa kembali NISN dan tanggal lahir Anda.</div>
+      </form>
+    </div>
+  </section>
+
+  <section class="result" id="result">
+    <div class="rapor" id="raporCard">
+      <div class="rapor-head">
+        <div class="seal">★</div>
+        <div>
+          <h3>Daftar Kolektif Hasil Tes Kemampuan Akademik</h3>
+          <small>SD Negeri Cibodas 4 · NPSN 20607279 · Tahun Ajaran 2025-2026</small>
+        </div>
+      </div>
+      <div class="rapor-body">
+        <div class="identity">
+          <div class="item"><label>Nama Siswa</label><div id="r-nama">—</div></div>
+          <div class="item"><label>Nomor Peserta</label><div id="r-np">—</div></div>
+          <div class="item"><label>NISN</label><div id="r-nisn">—</div></div>
+          <div class="item"><label>Tempat, Tanggal Lahir</label><div id="r-ttl">—</div></div>
+        </div>
+
+        <div class="subjects">
+          <div class="subj mtk">
+            <div class="icon">📐</div>
+            <h4>Matematika</h4>
+            <div class="score" id="r-mtk">—</div>
+            <span class="badge" id="r-mtk-badge">—</span>
+          </div>
+          <div class="subj bi">
+            <div class="icon">📖</div>
+            <h4>Bahasa Indonesia</h4>
+            <div class="score" id="r-bi">—</div>
+            <span class="badge" id="r-bi-badge">—</span>
+          </div>
+        </div>
+
+        <div class="summary">
+          <div>
+            <div class="label">Rata-rata Nilai</div>
+            <div class="avg" id="r-avg">—</div>
+          </div>
+          <div class="status" id="r-status">—</div>
+        </div>
+
+        <div class="actions footer-print-hide">
+          <button class="btn btn-gold" id="btnPrint">🖨️ Cetak Hasil</button>
+          <button class="btn btn-primary" id="btnPdf">📄 Download PDF</button>
+          <button class="btn btn-ghost" id="btnBack">← Kembali</button>
+        </div>
+
+        <div class="footer-note">
+          Sertifikat Hasil TKA akan dicetak setelah proses verifikasi selesai.<br/>
+          Jika hasilnya belum maksimal jangan berkecil hati, jika hasilnya sudah baik jangan berbangga diri.<br/>
+          <b>Tetap semangat.</b>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <p class="copyright">© 2026 SD Negeri Cibodas 4 · Kota Tangerang · Portal Pengumuman Hasil TKA</p>
+</main>
+
+<div class="loader-overlay" id="loader">
+  <div class="spinner"></div>
+  <div style="font-weight:600;letter-spacing:.05em">Memverifikasi data siswa…</div>
+  <div class="progress"><div id="progressBar"></div></div>
+</div>
+
+<script>
+/* ========== DATABASE SISWA ========== */
+const DB = [{"nomorPeserta": "T1-26-30-02-0367-0001-8", "nisn": "3134913804", "nama": "Khayla Aina Zahra", "ttl": "Tangerang, 18 Desember 2013", "tanggalLahir": "2013-12-18", "matematika": 56.67, "predikatMatematika": "Baik", "bahasaIndonesia": 73.33, "predikatBahasa": "Memadai"}, {"nomorPeserta": "T1-26-30-02-0367-0002-7", "nisn": "0138083368", "nama": "Fikri Aditya Mahendra", "ttl": "Grobogan, 22 September 2013", "tanggalLahir": "2013-09-22", "matematika": 50.0, "predikatMatematika": "Memadai", "bahasaIndonesia": 73.33, "predikatBahasa": "Memadai"}, {"nomorPeserta": "T1-26-30-02-0367-0003-6", "nisn": "3133230564", "nama": "Annisa Sukma Melati", "ttl": "Tangerang, 31 Agustus 2013", "tanggalLahir": "2013-08-31", "matematika": 43.33, "predikatMatematika": "Memadai", "bahasaIndonesia": 86.67, "predikatBahasa": "Baik"}, {"nomorPeserta": "T1-26-30-02-0367-0004-5", "nisn": "3138651957", "nama": "Thalita Aina Zahra", "ttl": "Tangerang, 19 Oktober 2013", "tanggalLahir": "2013-10-19", "matematika": 50.0, "predikatMatematika": "Memadai", "bahasaIndonesia": 60.0, "predikatBahasa": "Memadai"}, {"nomorPeserta": "T1-26-30-02-0367-0005-4", "nisn": "0134030996", "nama": "Tiara Permatasari", "ttl": "Tasikmalaya, 25 November 2013", "tanggalLahir": "2013-11-25", "matematika": 60.0, "predikatMatematika": "Baik", "bahasaIndonesia": 80.0, "predikatBahasa": "Baik"}, {"nomorPeserta": "T1-26-30-02-0367-0006-3", "nisn": "0146702629", "nama": "MAUDY JUNAEDY", "ttl": "TANGERANG, 3 Januari 2014", "tanggalLahir": "2014-01-03", "matematika": 56.67, "predikatMatematika": "Baik", "bahasaIndonesia": 63.33, "predikatBahasa": "Memadai"}, {"nomorPeserta": "T1-26-30-02-0367-0007-2", "nisn": "0135118921", "nama": "Muhamad Dzaky Alfarishi", "ttl": "Tangerang, 19 Februari 2013", "tanggalLahir": "2013-02-19", "matematika": 30.0, "predikatMatematika": "Kurang", "bahasaIndonesia": 76.67, "predikatBahasa": "Baik"}, {"nomorPeserta": "T1-26-30-02-0367-0008-9", "nisn": "3139584225", "nama": "AQILA AZ-ZAHRA", "ttl": "Tangerang, 29 Agustus 2013", "tanggalLahir": "2013-08-29", "matematika": 46.67, "predikatMatematika": "Memadai", "bahasaIndonesia": 50.0, "predikatBahasa": "Memadai"}, {"nomorPeserta": "T1-26-30-02-0367-0009-8", "nisn": "0133388031", "nama": "Anatasya Tiurma Silalahi", "ttl": "Tangerang, 7 Oktober 2013", "tanggalLahir": "2013-10-07", "matematika": 33.33, "predikatMatematika": "Memadai", "bahasaIndonesia": 90.0, "predikatBahasa": "Baik"}, {"nomorPeserta": "T1-26-30-02-0367-0010-7", "nisn": "0134200781", "nama": "RASAPTA CANDRIKA SETIANA", "ttl": "MAGETAN, 28 Februari 2013", "tanggalLahir": "2013-02-28", "matematika": 70.0, "predikatMatematika": "Baik", "bahasaIndonesia": 83.33, "predikatBahasa": "Baik"}, {"nomorPeserta": "T1-26-30-02-0367-0011-6", "nisn": "3134091999", "nama": "Muh Al Fiansyah Nur Halim", "ttl": "Tangerang, 6 Agustus 2013", "tanggalLahir": "2013-08-06", "matematika": 50.0, "predikatMatematika": "Memadai", "bahasaIndonesia": 66.67, "predikatBahasa": "Memadai"}, {"nomorPeserta": "T1-26-30-02-0367-0012-5", "nisn": "3138330842", "nama": "Aiyra Okta Cahaya", "ttl": "Pemalang, 8 Oktober 2013", "tanggalLahir": "2013-10-08", "matematika": 46.67, "predikatMatematika": "Memadai", "bahasaIndonesia": 83.33, "predikatBahasa": "Baik"}, {"nomorPeserta": "T1-26-30-02-0367-0013-4", "nisn": "0144343503", "nama": "Bilqis Faiha Rifda", "ttl": "Tangerang, 23 Januari 2014", "tanggalLahir": "2014-01-23", "matematika": 60.0, "predikatMatematika": "Baik", "bahasaIndonesia": 80.0, "predikatBahasa": "Baik"}, {"nomorPeserta": "T1-26-30-02-0367-0014-3", "nisn": "3135024089", "nama": "Romi Ramadhan Nur Rohman", "ttl": "Tangerang, 19 Juli 2013", "tanggalLahir": "2013-07-19", "matematika": 56.67, "predikatMatematika": "Baik", "bahasaIndonesia": 60.0, "predikatBahasa": "Memadai"}, {"nomorPeserta": "T1-26-30-02-0367-0015-2", "nisn": "0138324108", "nama": "Alfian Yusuf Al Hafidz", "ttl": "Tangerang, 21 Juli 2013", "tanggalLahir": "2013-07-21", "matematika": 43.33, "predikatMatematika": "Memadai", "bahasaIndonesia": 73.33, "predikatBahasa": "Memadai"}, {"nomorPeserta": "T1-26-30-02-0367-0016-9", "nisn": "0131649613", "nama": "RAUL LUIS SIANTURI", "ttl": "BINJAI, 31 Agustus 2013", "tanggalLahir": "2013-08-31", "matematika": 46.67, "predikatMatematika": "Memadai", "bahasaIndonesia": 83.33, "predikatBahasa": "Baik"}, {"nomorPeserta": "T1-26-30-02-0367-0017-8", "nisn": "3138434244", "nama": "Furqon Syadid", "ttl": "Tangerang, 6 September 2013", "tanggalLahir": "2013-09-06", "matematika": 40.0, "predikatMatematika": "Memadai", "bahasaIndonesia": 43.33, "predikatBahasa": "Kurang"}, {"nomorPeserta": "T1-26-30-02-0367-0018-7", "nisn": "3138575950", "nama": "Khanza Sakhila Oktaviani", "ttl": "Tangerang, 18 Oktober 2013", "tanggalLahir": "2013-10-18", "matematika": 36.67, "predikatMatematika": "Memadai", "bahasaIndonesia": 76.67, "predikatBahasa": "Baik"}, {"nomorPeserta": "T1-26-30-02-0367-0019-6", "nisn": "0141160368", "nama": "Fadil Satrio Yudistira", "ttl": "Tangerang, 27 Juni 2014", "tanggalLahir": "2014-06-27", "matematika": 23.33, "predikatMatematika": "Kurang", "bahasaIndonesia": 60.0, "predikatBahasa": "Memadai"}, {"nomorPeserta": "T1-26-30-02-0367-0020-5", "nisn": "3142007410", "nama": "Aura Michela Anggraeni", "ttl": "Tangerang, 27 Mei 2014", "tanggalLahir": "2014-05-27", "matematika": 40.0, "predikatMatematika": "Memadai", "bahasaIndonesia": 70.0, "predikatBahasa": "Memadai"}, {"nomorPeserta": "T1-26-30-02-0367-0021-4", "nisn": "3137796161", "nama": "DONI BASTIAN", "ttl": "TANGERANG, 3 September 2013", "tanggalLahir": "2013-09-03", "matematika": 40.0, "predikatMatematika": "Memadai", "bahasaIndonesia": 73.33, "predikatBahasa": "Memadai"}, {"nomorPeserta": "T1-26-30-02-0367-0022-3", "nisn": "3129214849", "nama": "ALFIZI", "ttl": "Bogor, 20 Desember 2012", "tanggalLahir": "2012-12-20", "matematika": 56.67, "predikatMatematika": "Baik", "bahasaIndonesia": 76.67, "predikatBahasa": "Baik"}, {"nomorPeserta": "T1-26-30-02-0367-0023-2", "nisn": "3147943593", "nama": "SYNHI AREEL MAULIDA", "ttl": "TANGERANG, 11 Januari 2014", "tanggalLahir": "2014-01-11", "matematika": 26.67, "predikatMatematika": "Kurang", "bahasaIndonesia": 66.67, "predikatBahasa": "Memadai"}, {"nomorPeserta": "T1-26-30-02-0367-0024-9", "nisn": "0143559957", "nama": "Ariqa Fatina Rasyid", "ttl": "Tangerang, 24 Januari 2014", "tanggalLahir": "2014-01-24", "matematika": 80.0, "predikatMatematika": "Baik", "bahasaIndonesia": 90.0, "predikatBahasa": "Baik"}, {"nomorPeserta": "T1-26-30-02-0367-0025-8", "nisn": "3142435700", "nama": "Naila Nisa Ardani", "ttl": "Tangerang, 30 Januari 2014", "tanggalLahir": "2014-01-30", "matematika": 40.0, "predikatMatematika": "Memadai", "bahasaIndonesia": 80.0, "predikatBahasa": "Baik"}, {"nomorPeserta": "T1-26-30-02-0367-0026-7", "nisn": "0133804194", "nama": "Akilla Alberlian", "ttl": "Pekalongan, 22 Agustus 2013", "tanggalLahir": "2013-08-22", "matematika": 63.33, "predikatMatematika": "Baik", "bahasaIndonesia": 83.33, "predikatBahasa": "Baik"}, {"nomorPeserta": "T1-26-30-02-0367-0027-6", "nisn": "0141748119", "nama": "Marsha Dwi Naffia", "ttl": "Tangerang, 12 Maret 2014", "tanggalLahir": "2014-03-12", "matematika": 33.33, "predikatMatematika": "Memadai", "bahasaIndonesia": 70.0, "predikatBahasa": "Memadai"}, {"nomorPeserta": "T1-26-30-02-0367-0028-5", "nisn": "3142257164", "nama": "Alula Apriliani", "ttl": "Tangerang, 19 April 2014", "tanggalLahir": "2014-04-19", "matematika": 46.67, "predikatMatematika": "Memadai", "bahasaIndonesia": 83.33, "predikatBahasa": "Baik"}, {"nomorPeserta": "T1-26-30-02-0367-0029-4", "nisn": "3134560141", "nama": "Raisa Kusuma Mahrup", "ttl": "Tangerang, 27 Maret 2013", "tanggalLahir": "2013-03-27", "matematika": 43.33, "predikatMatematika": "Memadai", "bahasaIndonesia": 76.67, "predikatBahasa": "Baik"}, {"nomorPeserta": "T1-26-30-02-0367-0030-3", "nisn": "3130618149", "nama": "Adhiyasta Rifky Alfiansyah", "ttl": "Magetan, 2 Oktober 2013", "tanggalLahir": "2013-10-02", "matematika": 56.67, "predikatMatematika": "Baik", "bahasaIndonesia": 70.0, "predikatBahasa": "Memadai"}, {"nomorPeserta": "T1-26-30-02-0367-0031-2", "nisn": "0136181789", "nama": "Muhammad Syamsulhadi", "ttl": "Tangerang, 24 Agustus 2013", "tanggalLahir": "2013-08-24", "matematika": 23.33, "predikatMatematika": "Kurang", "bahasaIndonesia": 56.67, "predikatBahasa": "Memadai"}, {"nomorPeserta": "T1-26-30-02-0367-0032-9", "nisn": "0135401926", "nama": "Ananda Deo Prawira", "ttl": "Tangerang, 25 Desember 2013", "tanggalLahir": "2013-12-25", "matematika": 43.33, "predikatMatematika": "Memadai", "bahasaIndonesia": 50.0, "predikatBahasa": "Memadai"}, {"nomorPeserta": "T1-26-30-02-0367-0033-8", "nisn": "3133334461", "nama": "Alvaro Zikri Setyadi", "ttl": "Tangerang, 9 Oktober 2013", "tanggalLahir": "2013-10-09", "matematika": 33.33, "predikatMatematika": "Memadai", "bahasaIndonesia": 66.67, "predikatBahasa": "Memadai"}, {"nomorPeserta": "T1-26-30-02-0367-0034-7", "nisn": "3131941420", "nama": "Radithya Alvis Simorangkir", "ttl": "Tangerang, 24 Agustus 2013", "tanggalLahir": "2013-08-24", "matematika": 50.0, "predikatMatematika": "Memadai", "bahasaIndonesia": 76.67, "predikatBahasa": "Baik"}, {"nomorPeserta": "T1-26-30-02-0367-0035-6", "nisn": "0136610103", "nama": "Keisya Nada Kirana", "ttl": "Tangerang, 7 November 2013", "tanggalLahir": "2013-11-07", "matematika": 43.33, "predikatMatematika": "Memadai", "bahasaIndonesia": 73.33, "predikatBahasa": "Memadai"}, {"nomorPeserta": "T1-26-30-02-0367-0036-5", "nisn": "0131851570", "nama": "Danesh Mahesa Irawan", "ttl": "Tangerang, 21 Juni 2013", "tanggalLahir": "2013-06-21", "matematika": 33.33, "predikatMatematika": "Memadai", "bahasaIndonesia": 50.0, "predikatBahasa": "Memadai"}, {"nomorPeserta": "T1-26-30-02-0367-0037-4", "nisn": "3142260787", "nama": "Neffy Askana Sakhi", "ttl": "Gunungkidul, 4 Februari 2014", "tanggalLahir": "2014-02-04", "matematika": 33.33, "predikatMatematika": "Memadai", "bahasaIndonesia": 63.33, "predikatBahasa": "Memadai"}, {"nomorPeserta": "T1-26-30-02-0367-0038-3", "nisn": "3142156312", "nama": "FATAN FADILAH", "ttl": "BANDAR LAMPUNG, 26 September 2014", "tanggalLahir": "2014-09-26", "matematika": 33.33, "predikatMatematika": "Memadai", "bahasaIndonesia": 76.67, "predikatBahasa": "Baik"}, {"nomorPeserta": "T1-26-30-02-0367-0039-2", "nisn": "3134518201", "nama": "Nazneen Taqiyya Almahyra", "ttl": "Tangerang, 19 Oktober 2013", "tanggalLahir": "2013-10-19", "matematika": 40.0, "predikatMatematika": "Memadai", "bahasaIndonesia": 83.33, "predikatBahasa": "Baik"}, {"nomorPeserta": "T1-26-30-02-0367-0040-9", "nisn": "0132406539", "nama": "Earlyta Arsyfa Salsabila", "ttl": "Brebes, 6 November 2013", "tanggalLahir": "2013-11-06", "matematika": 33.33, "predikatMatematika": "Memadai", "bahasaIndonesia": 80.0, "predikatBahasa": "Baik"}, {"nomorPeserta": "T1-26-30-02-0367-0041-8", "nisn": "3146817034", "nama": "Randika Fathurrohman", "ttl": "Cilacap, 11 Maret 2014", "tanggalLahir": "2014-03-11", "matematika": 40.0, "predikatMatematika": "Memadai", "bahasaIndonesia": 53.33, "predikatBahasa": "Memadai"}, {"nomorPeserta": "T1-26-30-02-0367-0042-7", "nisn": "0139852662", "nama": "Muhamad Ardiyansyah", "ttl": "Tangerang, 26 Oktober 2013", "tanggalLahir": "2013-10-26", "matematika": 26.67, "predikatMatematika": "Kurang", "bahasaIndonesia": 26.67, "predikatBahasa": "Kurang"}, {"nomorPeserta": "T1-26-30-02-0367-0043-6", "nisn": "0138819507", "nama": "Muhamad Fikri Fadilah", "ttl": "Lebak, 19 Oktober 2013", "tanggalLahir": "2013-10-19", "matematika": 36.67, "predikatMatematika": "Memadai", "bahasaIndonesia": 63.33, "predikatBahasa": "Memadai"}, {"nomorPeserta": "T1-26-30-02-0367-0044-5", "nisn": "3133483178", "nama": "Jihan Aqila", "ttl": "Tangerang, 21 Agustus 2013", "tanggalLahir": "2013-08-21", "matematika": 30.0, "predikatMatematika": "Kurang", "bahasaIndonesia": 66.67, "predikatBahasa": "Memadai"}, {"nomorPeserta": "T1-26-30-02-0367-0045-4", "nisn": "3145460391", "nama": "Lely Maulida", "ttl": "Tangerang, 2 Februari 2014", "tanggalLahir": "2014-02-02", "matematika": 60.0, "predikatMatematika": "Baik", "bahasaIndonesia": 80.0, "predikatBahasa": "Baik"}, {"nomorPeserta": "T1-26-30-02-0367-0046-3", "nisn": "3130585079", "nama": "AZZAHRA CITRA SARI", "ttl": "TANGERANG, 26 November 2013", "tanggalLahir": "2013-11-26", "matematika": 46.67, "predikatMatematika": "Memadai", "bahasaIndonesia": 60.0, "predikatBahasa": "Memadai"}, {"nomorPeserta": "T1-26-30-02-0367-0047-2", "nisn": "3145005066", "nama": "Mahya Khairunnisa Syakirah", "ttl": "Jakarta, 4 Maret 2014", "tanggalLahir": "2014-03-04", "matematika": 80.0, "predikatMatematika": "Baik", "bahasaIndonesia": 93.33, "predikatBahasa": "Baik"}, {"nomorPeserta": "T1-26-30-02-0367-0048-9", "nisn": "0138584615", "nama": "Nur Ahmad Rafatullah", "ttl": "Jakarta, 15 April 2013", "tanggalLahir": "2013-04-15", "matematika": 50.0, "predikatMatematika": "Memadai", "bahasaIndonesia": 50.0, "predikatBahasa": "Memadai"}, {"nomorPeserta": "T1-26-30-02-0367-0049-8", "nisn": "0135533463", "nama": "Muhamad Khaerul Anam", "ttl": "Tangerang, 11 Oktober 2013", "tanggalLahir": "2013-10-11", "matematika": 33.33, "predikatMatematika": "Memadai", "bahasaIndonesia": 20.0, "predikatBahasa": "Kurang"}, {"nomorPeserta": "T1-26-30-02-0367-0050-7", "nisn": "3133190645", "nama": "Naila Athalia", "ttl": "Tangerang, 1 September 2013", "tanggalLahir": "2013-09-01", "matematika": 30.0, "predikatMatematika": "Kurang", "bahasaIndonesia": 60.0, "predikatBahasa": "Memadai"}, {"nomorPeserta": "T1-26-30-02-0367-0051-6", "nisn": "0144009166", "nama": "Arief Irawan Alfarizi", "ttl": "Tangerang, 6 Februari 2014", "tanggalLahir": "2014-02-06", "matematika": 43.33, "predikatMatematika": "Memadai", "bahasaIndonesia": 70.0, "predikatBahasa": "Memadai"}, {"nomorPeserta": "T1-26-30-02-0367-0052-5", "nisn": "3149254170", "nama": "Sultan Sofian Arrasyid", "ttl": "Jakarta, 1 Februari 2014", "tanggalLahir": "2014-02-01", "matematika": 53.33, "predikatMatematika": "Memadai", "bahasaIndonesia": 56.67, "predikatBahasa": "Memadai"}, {"nomorPeserta": "T1-26-30-02-0367-0053-4", "nisn": "3133250142", "nama": "Muhammad Abiyyu Ubaydhilah", "ttl": "Tangerang, 16 Desember 2013", "tanggalLahir": "2013-12-16", "matematika": 60.0, "predikatMatematika": "Baik", "bahasaIndonesia": 76.67, "predikatBahasa": "Baik"}, {"nomorPeserta": "T1-26-30-02-0367-0054-3", "nisn": "3133716174", "nama": "Serina Aulia Agustin", "ttl": "Tangerang, 29 Agustus 2013", "tanggalLahir": "2013-08-29", "matematika": 30.0, "predikatMatematika": "Kurang", "bahasaIndonesia": 80.0, "predikatBahasa": "Baik"}, {"nomorPeserta": "T1-26-30-02-0367-0055-2", "nisn": "3145386268", "nama": "Rifqi Aryansyah", "ttl": "Tangerang, 30 April 2014", "tanggalLahir": "2014-04-30", "matematika": 36.67, "predikatMatematika": "Memadai", "bahasaIndonesia": 53.33, "predikatBahasa": "Memadai"}, {"nomorPeserta": "T1-26-30-02-0367-0056-9", "nisn": "3131301726", "nama": "MUHAMMAD ALFATHI ZUNNURAIN", "ttl": "TANGERANG, 18 September 2013", "tanggalLahir": "2013-09-18", "matematika": 30.0, "predikatMatematika": "Kurang", "bahasaIndonesia": 70.0, "predikatBahasa": "Memadai"}, {"nomorPeserta": "T1-26-30-02-0367-0057-8", "nisn": "3135275211", "nama": "Mismarulhadi", "ttl": "Tangerang, 6 September 2013", "tanggalLahir": "2013-09-06", "matematika": 40.0, "predikatMatematika": "Memadai", "bahasaIndonesia": 60.0, "predikatBahasa": "Memadai"}, {"nomorPeserta": "T1-26-30-02-0367-0058-7", "nisn": "0132040276", "nama": "Zhian Aqila Razzan", "ttl": "Tangerang, 20 Agustus 2013", "tanggalLahir": "2013-08-20", "matematika": 43.33, "predikatMatematika": "Memadai", "bahasaIndonesia": 76.67, "predikatBahasa": "Baik"}, {"nomorPeserta": "T1-26-30-02-0367-0059-6", "nisn": "3138425867", "nama": "ABDU ROZAK ALFARIZI", "ttl": "TANGERANG, 28 Desember 2013", "tanggalLahir": "2013-12-28", "matematika": 63.33, "predikatMatematika": "Baik", "bahasaIndonesia": 80.0, "predikatBahasa": "Baik"}, {"nomorPeserta": "T1-26-30-02-0367-0060-5", "nisn": "3136467048", "nama": "Marisa Nadia Syahda", "ttl": "Tangerang, 11 Desember 2013", "tanggalLahir": "2013-12-11", "matematika": 43.33, "predikatMatematika": "Memadai", "bahasaIndonesia": 83.33, "predikatBahasa": "Baik"}, {"nomorPeserta": "T1-26-30-02-0367-0061-4", "nisn": "3139639944", "nama": "Rikha Azzahra", "ttl": "Tangerang, 17 Desember 2013", "tanggalLahir": "2013-12-17", "matematika": 36.67, "predikatMatematika": "Memadai", "bahasaIndonesia": 53.33, "predikatBahasa": "Memadai"}, {"nomorPeserta": "T1-26-30-02-0367-0062-3", "nisn": "3138345776", "nama": "Niken Kencana Wangi", "ttl": "Garut, 19 Juni 2013", "tanggalLahir": "2013-06-19", "matematika": 40.0, "predikatMatematika": "Memadai", "bahasaIndonesia": 70.0, "predikatBahasa": "Memadai"}, {"nomorPeserta": "T1-26-30-02-0367-0063-2", "nisn": "0132408932", "nama": "M. Restu Ananda", "ttl": "Tangerang, 24 September 2013", "tanggalLahir": "2013-09-24", "matematika": 43.33, "predikatMatematika": "Memadai", "bahasaIndonesia": 40.0, "predikatBahasa": "Kurang"}, {"nomorPeserta": "T1-26-30-02-0367-0064-9", "nisn": "3130463787", "nama": "Kamilia Yufina Marwah", "ttl": "Tangerang, 6 Mei 2013", "tanggalLahir": "2013-05-06", "matematika": 40.0, "predikatMatematika": "Memadai", "bahasaIndonesia": 73.33, "predikatBahasa": "Memadai"}];
+
+/* ========== PROTEKSI SEDERHANA ========== */
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('keydown', e => {
+  if (e.key === 'F12') { e.preventDefault(); return false; }
+  if ((e.ctrlKey || e.metaKey) && e.shiftKey && ['I','J','C'].includes(e.key.toUpperCase())) { e.preventDefault(); return false; }
+  if ((e.ctrlKey || e.metaKey) && e.key.toUpperCase() === 'U') { e.preventDefault(); return false; }
+});
+
+/* ========== DARK MODE ========== */
+const themeToggle = document.getElementById('themeToggle');
+const themeIcon = document.getElementById('themeIcon');
+const themeText = document.getElementById('themeText');
+function setTheme(t){
+  document.documentElement.setAttribute('data-theme', t);
+  try{ localStorage.setItem('tka-theme', t); }catch(e){}
+  themeIcon.textContent = t === 'dark' ? '☀️' : '🌙';
+  themeText.textContent = t === 'dark' ? 'Mode Terang' : 'Mode Gelap';
+}
+let savedTheme = 'light';
+try{ savedTheme = localStorage.getItem('tka-theme') || 'light'; }catch(e){}
+setTheme(savedTheme);
+themeToggle.addEventListener('click', () => {
+  const cur = document.documentElement.getAttribute('data-theme') || 'light';
+  setTheme(cur === 'dark' ? 'light' : 'dark');
+});
+
+/* ========== LOGIN ========== */
+const form = document.getElementById('loginForm');
+const alertBox = document.getElementById('alert');
+const loader = document.getElementById('loader');
+const progressBar = document.getElementById('progressBar');
+
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  alertBox.classList.remove('show');
+  const nisn = document.getElementById('nisn').value.trim();
+  const tgl = document.getElementById('tgl').value;
+
+  // loader + progress
+  loader.classList.add('show');
+  progressBar.style.width = '0%';
+  let p = 0;
+  const itv = setInterval(()=>{
+    p += Math.random()*18 + 6;
+    if (p > 95) p = 95;
+    progressBar.style.width = p + '%';
+  }, 140);
+
+  setTimeout(() => {
+    clearInterval(itv);
+    progressBar.style.width = '100%';
+    setTimeout(()=>{
+      loader.classList.remove('show');
+      const siswa = DB.find(s => s.nisn === nisn && s.tanggalLahir === tgl);
+      if (!siswa){
+        alertBox.classList.add('show');
+        return;
+      }
+      tampilkanHasil(siswa);
+    }, 350);
+  }, 1500);
+});
+
+/* ========== TAMPILKAN HASIL ========== */
+function badgeClass(p){
+  const x = (p||'').toLowerCase();
+  if (x === 'baik') return 'baik';
+  if (x === 'memadai') return 'memadai';
+  return 'kurang';
+}
+function statusFromAvg(avg){
+  if (avg >= 80) return {label:'Sangat Baik', cls:'sangat', icon:'🏆'};
+  if (avg >= 65) return {label:'Baik', cls:'baik2', icon:'⭐'};
+  return {label:'Cukup', cls:'cukup', icon:'📘'};
+}
+
+function tampilkanHasil(s){
+  document.getElementById('r-nama').textContent = s.nama;
+  document.getElementById('r-np').textContent = s.nomorPeserta;
+  document.getElementById('r-nisn').textContent = s.nisn;
+  document.getElementById('r-ttl').textContent = s.ttl;
+
+  document.getElementById('r-mtk').textContent = s.matematika.toFixed(2);
+  const mBadge = document.getElementById('r-mtk-badge');
+  mBadge.textContent = s.predikatMatematika;
+  mBadge.className = 'badge ' + badgeClass(s.predikatMatematika);
+
+  document.getElementById('r-bi').textContent = s.bahasaIndonesia.toFixed(2);
+  const bBadge = document.getElementById('r-bi-badge');
+  bBadge.textContent = s.predikatBahasa;
+  bBadge.className = 'badge ' + badgeClass(s.predikatBahasa);
+
+  const avg = (s.matematika + s.bahasaIndonesia)/2;
+  document.getElementById('r-avg').textContent = avg.toFixed(2);
+  const st = statusFromAvg(avg);
+  const sEl = document.getElementById('r-status');
+  sEl.textContent = st.icon + '  ' + st.label;
+  sEl.className = 'status ' + st.cls;
+
+  document.getElementById('loginScreen').style.display = 'none';
+  const r = document.getElementById('result');
+  r.classList.add('show');
+  window.scrollTo({top:0, behavior:'smooth'});
+
+  if (avg > 80 && window.confetti){
+    setTimeout(()=>{
+      confetti({ particleCount: 140, spread: 80, origin:{y:0.6}, colors:['#d4af37','#f3d57a','#0b1d3a','#ffffff'] });
+      setTimeout(()=>confetti({ particleCount: 100, angle:60, spread:70, origin:{x:0}, colors:['#d4af37','#f3d57a'] }), 250);
+      setTimeout(()=>confetti({ particleCount: 100, angle:120, spread:70, origin:{x:1}, colors:['#d4af37','#f3d57a'] }), 450);
+    }, 400);
+  }
+}
+
+/* ========== ACTIONS ========== */
+document.getElementById('btnPrint').addEventListener('click', () => window.print());
+document.getElementById('btnBack').addEventListener('click', () => {
+  document.getElementById('result').classList.remove('show');
+  document.getElementById('loginScreen').style.display = '';
+  form.reset();
+});
+
+document.getElementById('btnPdf').addEventListener('click', async () => {
+  const node = document.getElementById('raporCard');
+  // Sembunyikan tombol untuk capture
+  const actions = node.querySelector('.actions');
+  const prev = actions.style.display;
+  actions.style.display = 'none';
+  try{
+    const canvas = await html2canvas(node, {scale:2, backgroundColor:null, useCORS:true});
+    const img = canvas.toDataURL('image/png');
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF('p','mm','a4');
+    const pageW = pdf.internal.pageSize.getWidth();
+    const pageH = pdf.internal.pageSize.getHeight();
+    const ratio = canvas.height / canvas.width;
+    let w = pageW - 20, h = w * ratio;
+    if (h > pageH - 20){ h = pageH - 20; w = h / ratio; }
+    pdf.addImage(img, 'PNG', (pageW - w)/2, 10, w, h);
+    const nama = document.getElementById('r-nama').textContent.replace(/\s+/g,'_');
+    pdf.save(`Hasil_TKA_${nama}.pdf`);
+  } finally {
+    actions.style.display = prev;
+  }
+});
+</script>
+</body>
+</html>
